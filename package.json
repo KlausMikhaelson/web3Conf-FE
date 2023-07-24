@@ -31,6 +31,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.7.1",
     "stream-http": "^3.2.0",
     "unique-names-generator": "^4.7.1",
     "wagmi": "^0.12.1",
