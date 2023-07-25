@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className='m-10'>
         <div>
-            <ConnectButton />
+          
             <Container />
         </div>
     </div>
