@@ -111,8 +111,8 @@ function Board(props) {
   }
 
   return (
-    <div className="sketch" id="sketch">
-      <canvas style={{border: "1px solid black", height: "70vh"}} className="board" id="board"></canvas>
+    <div  style={{display: "flex", alignItems: "center", justifyContent: "center"}} className="sketch" id="sketch">
+      <canvas style={{border: "1px solid black", height: "70vh", width: "90%"}} className="board" id="board"></canvas>
     </div>
   );
 }
