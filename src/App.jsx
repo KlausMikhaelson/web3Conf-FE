@@ -9,7 +9,7 @@ import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet, goerli } from "@wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import AppRoutes from './AppRoutes'
+import AppRoutes from "./AppRoutes";
 import React, { createContext, useState } from "react";
 
 const MyContext = createContext();
@@ -23,9 +23,8 @@ function App() {
     ]
   );
 
-
   const [roomId, setRoomId] = useState("");
-  
+  const [huddleId, setHuddleId] = useState("");
 
   const { connectors } = getDefaultWallets({
     appName: "Workspace3",
@@ -42,8 +41,10 @@ function App() {
     <div className="App">
       <MyContext.Provider
         value={{
-         roomId,
-         setRoomId
+          roomId,
+          setRoomId,
+          huddleId,
+          setHuddleId,
         }}
       >
         <WagmiConfig client={wagmiClient}>

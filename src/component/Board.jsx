@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
+import { HuddleIframe } from "@huddle01/iframe";
+import { useContext } from "react";
+import { MyContext } from "../App";
 
 function Board(props) {
   const socketRef = useRef(null);
@@ -8,12 +11,14 @@ function Board(props) {
   const isDrawingRef = useRef(false);
   const timeoutRef = useRef(null);
   const { id } = useParams();
+  const { roomId, setRoomId, huddleId, setHuddleId } = useContext(MyContext);
 
   useEffect(() => {
-    const socket = io.connect("https://web3conf-be-production.up.railway.app");
+    const socket = io.connect("http://localhost:4000");
     socketRef.current = socket;
 
-    socket.emit("joinRoom", id)
+    socket.emit("joinRoom", id);
+    console.log(roomId);
 
     socket.on("canvas", function (data) {
       var root = this;
@@ -111,8 +116,22 @@ function Board(props) {
   }
 
   return (
-    <div  style={{display: "flex", alignItems: "center", justifyContent: "center"}} className="sketch" id="sketch">
-      <canvas style={{border: "1px solid black", height: "70vh", width: "90%"}} className="board" id="board"></canvas>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column"
+      }}
+      className="sketch"
+      id="sketch"
+    >
+      <canvas
+        style={{ border: "1px solid black", height: "100vh", width: "90%" }}
+        className="board"
+        id="board"
+      ></canvas>
+      <HuddleIframe className="h-[100vh] w-full aspect-video rounded-lg" roomUrl={`https://iframe.huddle01.com/${id}`} />
     </div>
   );
 }
