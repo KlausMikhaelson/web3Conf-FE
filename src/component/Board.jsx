@@ -55,28 +55,28 @@ function Board(props) {
     const canvas = document.querySelector("#board");
     ctxRef.current = canvas.getContext("2d");
     const ctx = ctxRef.current;
-
+  
     const sketch = document.querySelector("#sketch");
     const sketch_style = getComputedStyle(sketch);
     canvas.width = parseInt(sketch_style.getPropertyValue("width"));
     canvas.height = parseInt(sketch_style.getPropertyValue("height"));
-
+  
     const mouse = { x: 0, y: 0 };
     const last_mouse = { x: 0, y: 0 };
-
+  
     /* Mouse Capturing Work */
     canvas.addEventListener(
       "mousemove",
       function (e) {
+        const rect = canvas.getBoundingClientRect();
         last_mouse.x = mouse.x;
         last_mouse.y = mouse.y;
-
-        mouse.x = e.pageX - this.offsetLeft;
-        mouse.y = e.pageY - this.offsetTop;
+  
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
       },
       false
     );
-
     /* Drawing on Paint App */
     ctx.lineWidth = props.size;
     ctx.lineJoin = "round";
@@ -121,17 +121,16 @@ function Board(props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: "column"
       }}
-      className="sketch"
+      className="sketch max-[600px]:flex-col gap-4"
       id="sketch"
     >
       <canvas
-        style={{ border: "1px solid black", height: "100vh", width: "90%" }}
-        className="board"
+        style={{ border: "1px solid black", height: "100vh" }}
+        className="board max-[600px]:w-[90%] w-[50%]"
         id="board"
       ></canvas>
-      <HuddleIframe className="h-[100vh] w-full aspect-video rounded-lg" roomUrl={`https://iframe.huddle01.com/${id}`} />
+      <HuddleIframe className="h-[100vh] w-[50%] max-[600px]:w-full aspect-video rounded-lg" roomUrl={`https://iframe.huddle01.com/${id}`} />
     </div>
   );
 }
