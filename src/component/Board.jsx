@@ -10,7 +10,7 @@ function Board(props) {
   const { id } = useParams();
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:4000");
+    const socket = io.connect("https://web3conf-be-production.up.railway.app");
     socketRef.current = socket;
 
     socket.emit("joinRoom", id)
