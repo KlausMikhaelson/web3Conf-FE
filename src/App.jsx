@@ -11,12 +11,14 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import AppRoutes from './AppRoutes'
 import React, { createContext, useState } from "react";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 
+const queryClient = new QueryClient()
 const MyContext = createContext();
 
 function App() {
   const { chains, provider } = configureChains(
-    [goerli],
+    [mainnet],
     [
       alchemyProvider({ apiKey: "RDJv2__y7TADjgFcX76tfvuw3RJVIjqD" }),
       publicProvider(),
@@ -55,7 +57,9 @@ function App() {
               fontStack: "system",
             })}
           >
+                <QueryClientProvider client={queryClient}>
             <AppRoutes />
+            </QueryClientProvider>
           </RainbowKitProvider>
         </WagmiConfig>
       </MyContext.Provider>

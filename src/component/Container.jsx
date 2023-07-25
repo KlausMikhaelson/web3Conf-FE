@@ -6,33 +6,34 @@ import { useHuddle01 } from '@huddle01/react';
 import { useLobby, useAudio, useVideo, useRoom, usePeers } from '@huddle01/react/hooks';
 import { useSigner, useAccount } from "wagmi";
 import { Audio, Video } from "@huddle01/react/components";
+import Huddle from "./Huddle";
 function Container() {
-    const [color, setColor] = useState("black");
-    const { address } = useAccount();
-    const {
-      roomId,
-      setRoomId
-     } = useContext(MyContext);
-     const { initialize, isInitialized } = useHuddle01();
-     const { joinLobby } = useLobby();
-     const { 
-      fetchAudioStream, stopAudioStream, error: micError, 
-      produceAudio, stopProducingAudio ,   stream: micStream,
-    } = useAudio();
+     const [color, setColor] = useState("black");
+//     const { address } = useAccount();
+//     const {
+//       roomId,
+//       setRoomId
+//      } = useContext(MyContext);
+//      const { initialize, isInitialized } = useHuddle01();
+//      const { joinLobby } = useLobby();
+//      const { 
+//       fetchAudioStream, stopAudioStream, error: micError, 
+//       produceAudio, stopProducingAudio ,   stream: micStream,
+//     } = useAudio();
  
-    const { 
-      fetchVideoStream, stopVideoStream, error: camError, 
-      produceVideo, stopProducingVideo ,   stream: camStream,
-    } = useVideo(); 
-     const { joinRoom, leaveRoom } = useRoom();
-     const { peers } = usePeers();
+//     const { 
+//       fetchVideoStream, stopVideoStream, error: camError, 
+//       produceVideo, stopProducingVideo ,   stream: camStream,
+//     } = useVideo(); 
+//      const { joinRoom, leaveRoom } = useRoom();
+//      const { peers } = usePeers();
  
 
 
-useEffect(() => {
-  initialize("lxiHM4YZ52hb1tbgRTNkSDHZfNayJBpO")
-  console.log()
-}, []);
+// useEffect(() => {
+//   initialize("lxiHM4YZ52hb1tbgRTNkSDHZfNayJBpO")
+//   console.log()
+// }, []);
 
   return (
     <div className="conatiner mt-[7rem]">
@@ -42,7 +43,9 @@ useEffect(() => {
       <div className="board-container">
           <Board color={color}></Board>
       </div>
-      <div className="button">
+      <Huddle/>
+    
+      {/* <div className="button">
       <div className="grid grid-cols-4">
       {Object.values(peers)
             .filter((peer) => peer.cam)
@@ -72,19 +75,19 @@ useEffect(() => {
       }>
         Join Lobby
       </button> 
-  
-      </div>
+  </div> */}
+    
 
    
         {/* Mic */} 
-        <button disabled={!fetchAudioStream.isCallable} onClick={fetchAudioStream}
+        {/* <button disabled={!fetchAudioStream.isCallable} onClick={fetchAudioStream}
         className="border border-black p-2 rounded-md m-2"
         >
           FETCH_AUDIO_STREAM
-        </button>
+        </button> */}
  
         {/* Webcam */} 
-        <button disabled={!fetchVideoStream.isCallable} 
+        {/* <button disabled={!fetchVideoStream.isCallable} 
          className="border border-black p-2 rounded-md m-2"
         onClick={fetchVideoStream}>
           FETCH_VIDEO_STREAM
@@ -124,7 +127,7 @@ useEffect(() => {
          className="border border-black p-2 rounded-md m-2"
         disabled={!stopProducingAudio.isCallable} onClick={stopProducingAudio}>
           Stop Producing Mic  
-        </button>
+        </button> */}
     </div>
   );
 }
