@@ -1,15 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import io from "socket.io-client";
+import { useParams } from "react-router-dom";
 
 function Board(props) {
   const socketRef = useRef(null);
   const ctxRef = useRef(null);
   const isDrawingRef = useRef(false);
   const timeoutRef = useRef(null);
+  const { id } = useParams();
 
   useEffect(() => {
     const socket = io.connect("http://localhost:4000");
     socketRef.current = socket;
+
+    socket.emit("joinRoom", id)
 
     socket.on("canvas", function (data) {
       var root = this;
@@ -31,7 +35,7 @@ function Board(props) {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     drawOnCanvas();
