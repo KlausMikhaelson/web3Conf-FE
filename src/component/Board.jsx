@@ -14,7 +14,7 @@ function Board(props) {
   const { roomId, setRoomId, huddleId, setHuddleId } = useContext(MyContext);
 
   useEffect(() => {
-    const socket = io.connect("https://web3conf-be-production.up.railway.app");
+    const socket = io.connect("http://localhost:4000");
     socketRef.current = socket;
 
     socket.emit("joinRoom", id);
@@ -68,24 +68,38 @@ function Board(props) {
     canvas.addEventListener(
       "mousemove",
       function (e) {
+    
         const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+    
         last_mouse.x = mouse.x;
         last_mouse.y = mouse.y;
-  
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
+    
+        mouse.x = (e.clientX - rect.left) * scaleX;
+        mouse.y = (e.clientY - rect.top) * scaleY;
       },
       false
     );
+    
     /* Drawing on Paint App */
     ctx.lineWidth = props.size;
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
     ctx.strokeStyle = props.color;
-
+  
     canvas.addEventListener(
       "mousedown",
       function (e) {
+        isDrawingRef.current = true;
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+    
+        // Update the initial position with the current mouse position
+        last_mouse.x = (e.clientX - rect.left) * scaleX;
+        last_mouse.y = (e.clientY - rect.top) * scaleY;
+    
         canvas.addEventListener("mousemove", onPaint, false);
       },
       false
@@ -94,25 +108,27 @@ function Board(props) {
     canvas.addEventListener(
       "mouseup",
       function () {
+        isDrawingRef.current = false; 
         canvas.removeEventListener("mousemove", onPaint, false);
       },
       false
     );
 
-    const root = this;
-    const onPaint = function () {
-      ctx.beginPath();
-      ctx.moveTo(last_mouse.x, last_mouse.y);
-      ctx.lineTo(mouse.x, mouse.y);
-      ctx.closePath();
-      ctx.stroke();
+    
+  const root = this;
+  const onPaint = function () {
+    ctx.beginPath();
+    ctx.moveTo(last_mouse.x, last_mouse.y);
+    ctx.lineTo(mouse.x, mouse.y);
+    ctx.closePath();
+    ctx.stroke();
 
-      if (timeoutRef.current != undefined) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(function () {
-        const base64ImageData = canvas.toDataURL("image/png");
-        socketRef.current.emit("canvas", base64ImageData);
-      }, 1000);
-    };
+    if (timeoutRef.current != undefined) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(function () {
+      const base64ImageData = canvas.toDataURL("image/png");
+      socketRef.current.emit("canvas", base64ImageData);
+    }, 1000);
+  };
   }
 
   return (
