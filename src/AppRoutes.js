@@ -8,8 +8,7 @@ const AppRoutes = () => {
   return (
     <Router>
        <Navbar/>
-        <Routes>
-         
+        <Routes>    
           <Route path='/' element={<Main/>}></Route>
             <Route path='group/board/:id' element={<Home />} />
             <Route path='/group' element={<Createteam />} />
