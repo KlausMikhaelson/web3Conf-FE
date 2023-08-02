@@ -11,7 +11,9 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import AppRoutes from "./AppRoutes";
 import React, { createContext, useState } from "react";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 
+const queryClient = new QueryClient()
 const MyContext = createContext();
 
 function App() {
@@ -56,7 +58,9 @@ function App() {
               fontStack: "system",
             })}
           >
+                <QueryClientProvider client={queryClient}>
             <AppRoutes />
+            </QueryClientProvider>
           </RainbowKitProvider>
         </WagmiConfig>
       </MyContext.Provider>
